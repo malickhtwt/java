@@ -43,6 +43,24 @@ public class Heap {
     }
 
     public void remove() {
+        heap.set(0, heap.get(heap.size() - 1));
+        heap.remove((heap.size() - 1));
+        int index = 0;
+        int max = index;
+        while (true) {
+            if (leftChild(index) < heap.size() -1 && heap.get(index) < heap.get(leftChild(index))) {
+                max = leftChild(index);
+            }
+            if (rightChild(index) < heap.size() -1 && heap.get(max) < heap.get(rightChild(index))) {
+                max = rightChild(index);
+            }
+            if (index < max) {
+                swapItems(max, index);
+                index = max;
+            } else {
+                return;
+            }
+        }
     }
 
     @Override
