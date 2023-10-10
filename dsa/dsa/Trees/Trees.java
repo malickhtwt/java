@@ -102,6 +102,29 @@ public class Trees {
         return contains(root, value);
     }
 
+    private boolean delete(Node currentNode, int value) {
+        if (currentNode == null) {
+            return false;
+        }
+        if (value < currentNode.value) {
+            return  delete(currentNode.left, value);
+        }
+        if (value > currentNode.value) {
+            return  delete(currentNode.right, value);
+        } else {
+            if (currentNode.left == null) {
+                currentNode.value = currentNode.right.value;
+                currentNode.left = null;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean delete(int value) {
+        return delete(root, value);
+    }
+
 
 
 }
