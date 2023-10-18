@@ -102,26 +102,39 @@ public class Trees {
         return contains(root, value);
     }
 
-    private boolean delete(Node currentNode, int value) {
+    private Node delete(Node currentNode, int value) {
         if (currentNode == null) {
-            return false;
+            return null;
         }
         if (value < currentNode.value) {
-            return  delete(currentNode.left, value);
+            currentNode.left = delete(currentNode.left, value);
         }
-        if (value > currentNode.value) {
-            return  delete(currentNode.right, value);
+        else if (value > currentNode.value) {
+            currentNode.right = delete(currentNode.right, value);
         } else {
-            if (currentNode.left == null) {
-                currentNode.value = currentNode.right.value;
-                currentNode.left = null;
-                return true;
+            if (currentNode.left == null && currentNode.right == null) {
+                return null;
+            } else if (currentNode.left == null) {
+                currentNode = currentNode.right;
+            } else if (currentNode.right == null) {
+                currentNode = currentNode.left;
+            } else {
+                int subTreeMin = minValue(currentNode.right);
+                currentNode.value = subTreeMin;
+                currentNode.right = delete(currentNode.right, subTreeMin);
             }
         }
-        return false;
+        return currentNode;
     }
 
-    public boolean delete(int value) {
+    private int minValue(Node currentNode) {
+        while (currentNode.left != null) {
+            currentNode = currentNode.left;
+        }
+        return currentNode.value;
+    }
+
+    public Node delete(int value) {
         return delete(root, value);
     }
 
